@@ -5,13 +5,19 @@ import * as schema from "../src/db/schema";
 import { passkey } from 'better-auth/plugins/passkey';
 import { admin, oneTap, openAPI } from 'better-auth/plugins';
 
-// Per Better Auth docs, you should export an `auth` instance.
-// In Cloudflare Workers, we need the D1 binding from Env, so we expose a factory
-// that creates the instance per-request using the current Env.
 export function createAuth(database: D1Database) {
   const db = drizzle(database, { schema });
 
   return betterAuth({
+    account: {
+      accountLinking: {
+        enabled: true,
+        trustedProviders: ['google'],
+      }
+    },
+    trustedOrigins: [
+      'http://localhost:5173',
+    ],
     database: drizzleAdapter(db, {
       provider: "sqlite",
     }),
@@ -23,7 +29,7 @@ export function createAuth(database: D1Database) {
       oneTap(),
       admin(),
       openAPI(), 
-    ]
+    ],
   });
 }
 

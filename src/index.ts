@@ -1,10 +1,25 @@
 import { Hono } from "hono";
+import { cors } from "hono/cors";
+import {logger} from "hono/logger";
 import { createAuth } from "../lib/auth";
 import type { Context } from "hono";
 
 type AppContext = Context<{ Bindings: Env }>;
 
 const app = new Hono<{ Bindings: Env }>();
+
+
+app.use(logger());
+app.use(
+  cors({
+    origin: [
+      'http://localhost:5173',
+
+    ],
+    credentials: true,
+    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  })
+);
 
 // Helper function to verify session
 async function getSession(c: AppContext) {
@@ -14,20 +29,6 @@ async function getSession(c: AppContext) {
   });
   return session;
 }
-
-// Public endpoints
-app.get("/", (c) => {
-  return c.json({
-    message: "Auth API is running",
-    endpoints: {
-      signUp: "POST /api/sign-up",
-      signIn: "POST /api/sign-in",
-      signOut: "POST /api/sign-out",
-      me: "GET /api/me",
-      protected: "GET /api/protected",
-    },
-  });
-});
 
 // Sign up endpoint
 app.post("/api/sign-up", async (c) => {
