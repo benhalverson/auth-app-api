@@ -10,7 +10,8 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { drizzle } from "drizzle-orm/d1";
 import * as schema from "../src/db/schema";
-import { admin, oneTap, openAPI, twoFactor } from "better-auth/plugins";
+import { passkey } from "better-auth/plugins/passkey";
+import { admin, oneTap, openAPI } from "better-auth/plugins";
 
  /**
  * Create and export auth instance
@@ -20,7 +21,7 @@ import { admin, oneTap, openAPI, twoFactor } from "better-auth/plugins";
  * 2. process.env.DB (via nodejs_compat_populate_process_env flag)
  * 
  * Supports all better-auth plugins:
- * - twoFactor: Two-factor authentication support
+ * - passkey: WebAuthn/FIDO2 support
  * - oneTap: Google One Tap integration
  * - admin: Role-based access control
  * - openAPI: OpenAPI schema generation
@@ -55,7 +56,7 @@ export function createAuth(database: D1Database) {
 
     // Plugins for extended functionality
     plugins: [
-      twoFactor(), // Two-factor authentication
+      passkey(), // WebAuthn support
       oneTap(), // Google One Tap
       admin(), // Role-based access control
       openAPI(), // OpenAPI documentation
