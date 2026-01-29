@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import * as schema from '../../src/db/schema';
 
 describe('Database Schema Validation', () => {
@@ -76,40 +76,62 @@ describe('Database Schema Validation', () => {
   });
 
   describe('Admin Plugin Fields', () => {
-    it('should support user role field', () => {
-      // User schema should support role field for admin plugin
-      expect(schema).toHaveProperty('user');
+    it('should have role field on user table', () => {
+      expect(schema.user).toBeDefined();
+      // Check if role field exists in the table definition
+      const userColumns = Object.keys((schema.user as any));
+      expect(userColumns).toContain('role');
     });
 
-    it('should support ban tracking fields', () => {
+    it('should have ban tracking fields on user table', () => {
       // User schema should support banned, banReason, banExpires
-      expect(schema).toHaveProperty('user');
+      expect(schema.user).toBeDefined();
+      const userColumns = Object.keys((schema.user as any));
+      expect(userColumns).toContain('banned');
+      expect(userColumns).toContain('banReason');
+      expect(userColumns).toContain('banExpires');
     });
   });
 
   describe('Timestamps and Tracking', () => {
-    it('should support createdAt timestamps', () => {
-      // Schema should support creation timestamps
-      expect(schema).toHaveProperty('user');
-      expect(schema).toHaveProperty('session');
+    it('should have createdAt timestamp on user table', () => {
+      expect(schema.user).toBeDefined();
+      const userColumns = Object.keys((schema.user as any));
+      expect(userColumns).toContain('createdAt');
     });
 
-    it('should support updatedAt timestamps', () => {
-      // Schema should support update timestamps
-      expect(schema).toHaveProperty('user');
-      expect(schema).toHaveProperty('account');
+    it('should have updatedAt timestamp on user table', () => {
+      expect(schema.user).toBeDefined();
+      const userColumns = Object.keys((schema.user as any));
+      expect(userColumns).toContain('updatedAt');
+    });
+
+    it('should have createdAt timestamp on session table', () => {
+      expect(schema.session).toBeDefined();
+      const sessionColumns = Object.keys((schema.session as any));
+      expect(sessionColumns).toContain('createdAt');
+    });
+
+    it('should have updatedAt timestamp on account table', () => {
+      expect(schema.account).toBeDefined();
+      const accountColumns = Object.keys((schema.account as any));
+      expect(accountColumns).toContain('updatedAt');
     });
   });
 
   describe('OAuth and Account Fields', () => {
-    it('should support OAuth token fields', () => {
-      // Account schema should support tokens for OAuth
-      expect(schema).toHaveProperty('account');
+    it('should have OAuth token fields on account table', () => {
+      expect(schema.account).toBeDefined();
+      const accountColumns = Object.keys((schema.account as any));
+      expect(accountColumns).toContain('accessToken');
+      expect(accountColumns).toContain('refreshToken');
+      expect(accountColumns).toContain('idToken');
     });
 
-    it('should support password field for email/password auth', () => {
-      // Account schema should support password for local auth
-      expect(schema).toHaveProperty('account');
+    it('should have password field on account table for email/password auth', () => {
+      expect(schema.account).toBeDefined();
+      const accountColumns = Object.keys((schema.account as any));
+      expect(accountColumns).toContain('password');
     });
   });
 });

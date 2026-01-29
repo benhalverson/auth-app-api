@@ -1,5 +1,3 @@
-import { Hono } from 'hono';
-
 /**
  * Test fixtures and utilities for auth testing
  */

@@ -72,6 +72,6 @@ export function createAuth(database: D1Database) {
 // Type for the Better Auth instance
 export type Auth = ReturnType<typeof betterAuth>;
 
-// Export auth instance for convenience
+// Export auth factory for convenience
 // Note: In Cloudflare Workers, use createAuth(c.env.users) to create instance per request
-export default betterAuth;
+export default createAuth;
