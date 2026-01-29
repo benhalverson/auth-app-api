@@ -21,6 +21,8 @@ export const user = sqliteTable("user", {
   banned: integer("banned", { mode: "boolean" }).default(false),
   banReason: text("banReason"),
   banExpires: integer("banExpires", { mode: "timestamp_ms" }),
+  // Two-factor authentication fields
+  twoFactorEnabled: integer("twoFactorEnabled", { mode: "boolean" }).default(false),
 });
 
 export const session = sqliteTable("session", {

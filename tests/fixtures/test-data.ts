@@ -1,5 +1,3 @@
-import { Hono } from 'hono';
-
 /**
  * Test fixtures and utilities for auth testing
  */
@@ -88,7 +86,7 @@ export const mockHeaders = {
  * Mock environment for D1 database
  */
 export const mockEnv = {
-  users: null as any, // Will be replaced with real D1 in integration tests
+  users: null as unknown as D1Database, // Will be replaced with real D1 in integration tests
   BETTER_AUTH_SECRET: 'test-secret-key-must-be-32-chars-minimum-for-testing',
 };
 
@@ -96,12 +94,12 @@ export const mockEnv = {
  * Helper to make HTTP requests in tests
  */
 export async function makeRequest(
-  app: any,
+  app: { request: (req: Request) => Promise<Response> },
   method: 'GET' | 'POST' | 'PUT' | 'DELETE',
   path: string,
   options?: {
     headers?: Record<string, string>;
-    body?: any;
+    body?: unknown;
   }
 ) {
   const body = options?.body ? JSON.stringify(options.body) : undefined;

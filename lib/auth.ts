@@ -10,10 +10,9 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { drizzle } from "drizzle-orm/d1";
 import * as schema from "../src/db/schema";
-import { passkey } from "better-auth/plugins/passkey";
-import { admin, oneTap, openAPI } from "better-auth/plugins";
+import { admin, oneTap, openAPI, twoFactor } from "better-auth/plugins";
 
-/**
+ /**
  * Create and export auth instance
  * 
  * This can be called with either:
@@ -21,7 +20,7 @@ import { admin, oneTap, openAPI } from "better-auth/plugins";
  * 2. process.env.DB (via nodejs_compat_populate_process_env flag)
  * 
  * Supports all better-auth plugins:
- * - passkey: WebAuthn/FIDO2 support
+ * - twoFactor: Two-factor authentication support
  * - oneTap: Google One Tap integration
  * - admin: Role-based access control
  * - openAPI: OpenAPI schema generation
@@ -56,7 +55,7 @@ export function createAuth(database: D1Database) {
 
     // Plugins for extended functionality
     plugins: [
-      passkey(), // WebAuthn support
+      twoFactor(), // Two-factor authentication
       oneTap(), // Google One Tap
       admin(), // Role-based access control
       openAPI(), // OpenAPI documentation
@@ -70,8 +69,8 @@ export function createAuth(database: D1Database) {
 }
 
 // Type for the Better Auth instance
-export type Auth = ReturnType<typeof betterAuth>;
+export type Auth = ReturnType<typeof createAuth>;
 
-// Export auth instance for convenience
+// Export auth factory for convenience
 // Note: In Cloudflare Workers, use createAuth(c.env.users) to create instance per request
-export default betterAuth;
+export default createAuth;
