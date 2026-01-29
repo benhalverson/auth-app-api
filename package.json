@@ -19,6 +19,7 @@
 	"devDependencies": {
 		"@cloudflare/vitest-pool-workers": "^0.12.7",
 		"@testing-library/dom": "^10.4.1",
+		"@vitest/coverage-v8": "4.0.18",
 		"@vitest/ui": "^4.0.18",
 		"drizzle-kit": "^0.31.5",
 		"happy-dom": "^20.4.0",

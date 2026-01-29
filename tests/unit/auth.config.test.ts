@@ -1,80 +1,54 @@
-import { describe, it, expect, beforeAll } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
+import { createAuth } from '../../lib/auth';
+
+// Mock D1Database
+const mockD1: D1Database = {
+  prepare: vi.fn().mockReturnThis(),
+  bind: vi.fn().mockReturnThis(),
+  run: vi.fn().mockResolvedValue({ success: true, meta: {} }),
+  all: vi.fn().mockResolvedValue({ results: [], success: true, meta: {} }),
+  first: vi.fn().mockResolvedValue(null),
+  raw: vi.fn().mockResolvedValue([]),
+  dump: vi.fn().mockResolvedValue(new ArrayBuffer(0)),
+  batch: vi.fn().mockResolvedValue([]),
+  exec: vi.fn().mockResolvedValue({ count: 0, duration: 0 }),
+} as any;
 
 describe('Auth Configuration', () => {
-  describe('Environment Variables', () => {
-    it('should have BETTER_AUTH_SECRET in environment', () => {
-      // This will be set in .dev.vars during local testing
-      // For CI/testing, we verify the requirement
-      expect(['BETTER_AUTH_SECRET']).toBeDefined();
+  describe('Auth Instance Creation', () => {
+    it('should create auth instance with D1 database', () => {
+      const auth = createAuth(mockD1);
+      expect(auth).toBeDefined();
+      expect(auth.api).toBeDefined();
+      expect(auth.handler).toBeDefined();
+    });
+
+    it('should expose API methods', () => {
+      const auth = createAuth(mockD1);
+      expect(auth.api.signUpEmail).toBeDefined();
+      expect(auth.api.signInEmail).toBeDefined();
+      expect(auth.api.signOut).toBeDefined();
+      expect(auth.api.getSession).toBeDefined();
+    });
+
+    it('should expose handler for native auth routes', () => {
+      const auth = createAuth(mockD1);
+      expect(typeof auth.handler).toBe('function');
     });
   });
 
-  describe('Auth Instance', () => {
+  describe('Configuration', () => {
     it('should be importable from lib/auth.ts', async () => {
-      // Tests that the auth module exists and is valid TypeScript
-      // This will pass once lib/auth.ts is implemented
-      expect(true).toBe(true); // Placeholder - will be filled after implementation
+      const { createAuth } = await import('../../lib/auth');
+      expect(createAuth).toBeDefined();
+      expect(typeof createAuth).toBe('function');
     });
 
-    it('should use cloudflare:workers env import', () => {
-      // Verify that auth.ts uses cloudflare:workers for env access
-      // This ensures CLI commands work properly
-      expect(true).toBe(true); // Placeholder
-    });
-
-    it('should include all required plugins', () => {
-      // The auth config should include:
-      // - passkey (WebAuthn)
-      // - oneTap (Google One Tap)
-      // - admin (role-based access)
-      const requiredPlugins = ['passkey', 'oneTap', 'admin'];
-      expect(requiredPlugins).toHaveLength(3);
-    });
-
-    it('should enable email and password authentication', () => {
-      // emailAndPassword should be enabled
-      expect(true).toBe(true); // Placeholder
-    });
-
-    it('should configure account linking for Google', () => {
-      // Account linking should be enabled for Google provider
-      expect(true).toBe(true); // Placeholder
-    });
-  });
-
-  describe('CORS Configuration', () => {
-    it('should allow localhost:5173 in development', () => {
-      const allowedOrigins = ['http://localhost:5173'];
-      expect(allowedOrigins).toContain('http://localhost:5173');
-    });
-
-    it('should enable credentials for cookie-based auth', () => {
-      const corsConfig = { credentials: true };
-      expect(corsConfig.credentials).toBe(true);
-    });
-  });
-
-  describe('Database Configuration', () => {
-    it('should use D1 database binding', () => {
-      // Auth should be configured with D1 database via drizzleAdapter
-      expect(true).toBe(true); // Placeholder
-    });
-
-    it('should use SQLite provider', () => {
-      // The drizzle adapter should specify "sqlite" as provider
-      expect(true).toBe(true); // Placeholder
-    });
-
-    it('should reference correct schema', () => {
-      // Should use src/db/schema as the single source of truth
-      expect(true).toBe(true); // Placeholder
-    });
-  });
-
-  describe('Trusted Origins', () => {
-    it('should have localhost for development', () => {
-      const trustedOrigins = ['http://localhost:5173'];
-      expect(trustedOrigins.length).toBeGreaterThan(0);
+    it('should return auth instance with correct structure', () => {
+      const auth = createAuth(mockD1);
+      expect(auth).toHaveProperty('api');
+      expect(auth).toHaveProperty('handler');
+      expect(auth).toHaveProperty('options');
     });
   });
 });
