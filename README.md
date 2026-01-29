@@ -28,7 +28,7 @@ A modern, production-ready authentication API built with **Better-Auth**, **Hono
 - 120+ comprehensive tests (unit + integration)
 - Modern TypeScript with full type safety
 - Hot reload development server
-- OpenAPI schema generation
+- OpenAPI schema generation with interactive UI
 - Detailed documentation and examples
 
 ## Quick Start
@@ -75,6 +75,9 @@ BETTER_AUTH_SECRET=your-generated-secret-here
 # Start development server (http://localhost:8787)
 pnpm run dev
 
+# View interactive API documentation
+# Open: http://localhost:8787/api/auth/reference
+
 # Run tests
 pnpm test
 
@@ -114,6 +117,16 @@ auth-app-api/
 ```
 
 ## API Endpoints
+
+### Interactive Documentation
+
+When running the dev server, access the auto-generated API documentation:
+
+**🔗 [http://localhost:8787/api/auth/reference](http://localhost:8787/api/auth/reference)**
+
+This provides a complete interactive API reference with all Better-Auth endpoints, schemas, and the ability to test requests directly from your browser.
+
+### Custom Endpoints
 
 ### Sign Up
 ```bash
