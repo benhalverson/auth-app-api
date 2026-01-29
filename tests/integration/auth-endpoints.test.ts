@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import app from '../../src/index';
 
-// Mock D1Database
+// Mock D1Database with proper types
 const mockD1: D1Database = {
   prepare: vi.fn().mockReturnThis(),
   bind: vi.fn().mockReturnThis(),
@@ -12,7 +12,7 @@ const mockD1: D1Database = {
   dump: vi.fn().mockResolvedValue(new ArrayBuffer(0)),
   batch: vi.fn().mockResolvedValue([]),
   exec: vi.fn().mockResolvedValue({ count: 0, duration: 0 }),
-} as any;
+} as D1Database;
 
 // Mock environment
 const mockEnv = {
