@@ -18,8 +18,8 @@ importers:
         specifier: ^0.44.7
         version: 0.44.7(better-sqlite3@12.4.1)(kysely@0.28.8)
       hono:
-        specifier: ^4.10.3
-        version: 4.10.3
+        specifier: ^4.11.7
+        version: 4.11.7
     devDependencies:
       drizzle-kit:
         specifier: ^0.31.5
@@ -840,8 +840,8 @@ packages:
   glob-to-regexp@0.4.1:
     resolution: {integrity: sha512-lkX1HJXwyMcprw/5YUZc2s7DrpAiHB21/V+E1rHUrVNokkvB6bqMzT0VfV6/86ZNabt1k14YOIaT7nDvOX3Iiw==}
 
-  hono@4.10.3:
-    resolution: {integrity: sha512-2LOYWUbnhdxdL8MNbNg9XZig6k+cZXm5IjHn2Aviv7honhBMOHb+jxrKIeJRZJRmn+htUCKhaicxwXuUDlchRA==}
+  hono@4.11.7:
+    resolution: {integrity: sha512-l7qMiNee7t82bH3SeyUCt9UF15EVmaBvsppY2zQtrbIhl/yzBTny+YUxsVjSjQ6gaqaeVtZmGocom8TzBlA4Yw==}
     engines: {node: '>=16.9.0'}
 
   ieee754@1.2.1:
@@ -1696,7 +1696,7 @@ snapshots:
 
   glob-to-regexp@0.4.1: {}
 
-  hono@4.10.3: {}
+  hono@4.11.7: {}
 
   ieee754@1.2.1: {}
 
