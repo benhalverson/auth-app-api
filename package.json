@@ -22,7 +22,7 @@
 		"@vitest/coverage-v8": "4.0.18",
 		"@vitest/ui": "^4.0.18",
 		"drizzle-kit": "^0.31.5",
-		"happy-dom": "^20.4.0",
+		"happy-dom": "^20.8.8",
 		"miniflare": "^4.20260124.0",
 		"vitest": "^4.0.18",
 		"wrangler": "^4.45.0"
